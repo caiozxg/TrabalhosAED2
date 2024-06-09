@@ -19,6 +19,10 @@ typedef struct {
     int tamanho;
 } ListaCircular;
 
+
+
+///////////////////////////////////////////////////////////
+
 void iniciarlistaCircular(ListaCircular *listacircular);
 void iniciarlista(Lista *lista);
 No* busca1(Lista *lista, int ant);
@@ -29,6 +33,8 @@ void inserir2(ListaCircular *listacircular, int num);
 void listaCircularmenu(ListaCircular *listacircular);
 void imprimir(Lista *lista);
 void imprimircircular(ListaCircular *listacircular);
+
+///////////////////////////////////////////////////////////////
 
 void iniciarlistaCircular(ListaCircular *listacircular) {
     listacircular->inicio = NULL;
@@ -157,11 +163,12 @@ void inserir2(ListaCircular *listacircular, int num) {
         if (listacircular->inicio == NULL) {
             listacircular->inicio = novo;
             listacircular->fim = novo;
-            novo->proximo = novo;
+            listacircular->fim->proximo=listacircular->inicio;
+            //tambem insere no começo
         } else if (novo->valor < listacircular->inicio->valor) {
             novo->proximo = listacircular->inicio;
             listacircular->inicio = novo;
-            listacircular->fim->proximo = novo;
+            listacircular->fim->proximo = listacircular->inicio;
         } else {
             aux = listacircular->inicio;
             while (aux->proximo != listacircular->inicio && novo->valor > aux->proximo->valor) {
@@ -178,49 +185,70 @@ void inserir2(ListaCircular *listacircular, int num) {
         printf("Erro ao alocar a memoria!\n");
     }
 }
-void remover2(ListaCircular *listacircular,int num){
-  if (listacircular == NULL || listacircular->inicio == NULL) {
-        return;  // lista vazia.
-    }
 
-    No *remover = NULL;
-    No *no = listacircular->inicio;
-    No *prev = NULL;
 
-    // removendo o primeiro nó
-    if (no->valor == num) {
-        remover = no;
-        if (no->proximo == no) {
-            //só tem um
+
+
+
+
+
+
+
+
+No* remover2(ListaCircular *listacircular,int num){
+ No *aux, *remover = NULL;
+
+    if(listacircular->inicio){
+        if(listacircular->inicio == listacircular->fim && listacircular->inicio->valor == num){
+            remover = listacircular->inicio;
             listacircular->inicio = NULL;
-        } else {
-            // Find the last node to update its next pointer
-            No *last = listacircular->inicio;
-            while (last->proximo != listacircular->inicio) {
-                last = last->proximo;
+            listacircular->fim = NULL;
+            listacircular->tamanho--;
+        }
+        else if(listacircular->inicio->valor == num){
+            remover = listacircular->inicio;
+            listacircular->inicio = remover->proximo;
+            listacircular->fim->proximo = listacircular->inicio;
+            listacircular->tamanho--;
+        }
+        else{
+            aux = listacircular->inicio;
+            while(aux->proximo != listacircular->inicio && aux->proximo->valor != num)
+                aux = aux->proximo;
+            if(aux->proximo->valor == num){
+                if(listacircular->fim == aux->proximo){
+                    remover = aux->proximo;
+                    aux->proximo = remover->proximo;
+                    listacircular->fim = aux;
+                }
+                else{
+                    remover = aux->proximo;
+                    aux->proximo = remover->proximo;
+                }
+                listacircular->tamanho--;
             }
-            listacircular->inicio = no->proximo;
-            last->proximo = listacircular->inicio;
         }
-        free(remover);
-        return;
     }
 
-    prev = no;
-    no = no->proximo;
+    return remover;
+}
 
-    // Traverse the list to find the node to remove
-    while (no != listacircular->inicio) {
-        if (no->valor == num) {
-            remover = no;
-            prev->proximo = no->proximo;
-            free(remover);
-            return;
-        }
-        prev = no;
-        no = no->proximo;
-    }
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -229,7 +257,7 @@ void remover2(ListaCircular *listacircular,int num){
 
 
 void listaCircularmenu(ListaCircular *listacircular) {
-    printf("----------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------\n");
     printf("Operacoes em lista simplesmente encadeada, circular, sem no cabeca\n");
     int menu, num;
 
