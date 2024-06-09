@@ -1,6 +1,17 @@
 #include <stdlib.h>
 #include <stdio.h> 
 #include <unistd.h>
+//estrutura para pilhas
+typedef struct nopilha {
+    int valor;
+    struct nopilha *proximo;
+} Nopilha;
+
+// Estrutura da pilha
+typedef struct {
+    Nopilha *topo;
+    int tamanho;
+} Pilha;
 
 // Estrutura para listas simplesmente encadeadas
 typedef struct no {
@@ -36,7 +47,11 @@ typedef struct {
 
 
 ///////////////////////////////////////////////////////////
-
+void iniciarPilha(Pilha *pilha);
+void inserirPilha(Pilha *pilha, int valor);
+int removerPilha(Pilha *pilha);
+void imprimirPilha(Pilha pilha);
+void limparPilha(Pilha *pilha);
 void iniciarlistaCircular(ListaCircular *listacircular);
 void iniciarlista(Lista *lista);
 No* busca1(Lista *lista, int ant);
@@ -55,6 +70,11 @@ void iniciarlistadup(ListaDup *listadup) {
     listadup->inicio->proximo = NULL;
     listadup->inicio->anterior = NULL;
     listadup->tamanho = 0;
+}
+// Função para inicializar a pilha
+void iniciarPilha(Pilha *pilha) {
+    pilha->topo = NULL;
+    pilha->tamanho = 0;
 }
 
 void iniciarlistaCircular(ListaCircular *listacircular) {
@@ -462,6 +482,70 @@ void listaduplamente(ListaDup *listadup) {
     } while (menu != 0);
 }
 
+// Função para inserir um elemento na pilha
+void inserir4(Pilha *pilha, int valor) {
+    Nopilha *novo = (Nopilha *)malloc(sizeof(Nopilha));
+    if (novo == NULL) {
+        printf("Erro ao alocar memória para novo nó.\n");
+        return;
+    }
+    novo->valor = valor;
+    novo->proximo = pilha->topo;
+    pilha->topo = novo;
+    pilha->tamanho++;
+}
+
+// Função para remover um elemento da pilha
+int remover4(Pilha *pilha) {
+    if (pilha->topo == NULL) {
+        printf("A pilha está vazia.\n");
+        return -1; // Indicador de erro
+    }
+    Nopilha *remover = pilha->topo;
+    int valor = remover->valor;
+    pilha->topo = pilha->topo->proximo;
+    free(remover);
+    pilha->tamanho--;
+    return valor;
+}
+
+
+void pilhamenu(Pilha *pilha) {
+    printf("-----------------------------------------\n");
+    printf("Operacoes em listadup simplesmente encadeada\n");
+    int menu, num;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Insercao\n");
+        printf("2. Remocao\n");
+        printf("3. Imprimir\n");
+        printf("0. Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &menu);
+
+        switch (menu) {
+            case 1:
+                printf("Qual numero voce deseja inserir?\n");
+                scanf("%d", &num);
+                inserir4(pilha, num);
+                break;
+            case 2:
+                remover4(pilha);
+                break;
+            case 3:
+                imprimirPilha(*pilha);
+                break;
+            case 0:
+                printf("Saindo...\n");
+                exit(0);
+                break;
+            default:
+                printf("Opcao invalida! Por favor, escolha uma opcao valida.\n");
+        }
+    } while (menu != 0);
+}
+
 void imprimir(Lista *lista) {
     No *no = lista->inicio; 
     while (no != NULL) {
@@ -483,16 +567,36 @@ void imprimircircular(ListaCircular *listacircular) {
     } while (teste != listacircular->inicio);
     printf("\n");
 }
+// Função para imprimir os elementos da pilha
+void imprimirPilha(Pilha pilha) {
+    Nopilha *no = pilha.topo;
+
+    printf("Pilha: ");
+    if (pilha.topo == NULL){
+        printf("vazia!");
+    }
+    while (no != NULL) {
+        if (no != NULL){
+        printf("%d", no->valor);
+        if (no->proximo != NULL)
+        printf(" -> ");
+        }
+        no = no->proximo;
+    }
+    
+}
 
 int main() {
     int escolha;
     Lista lista;
     ListaCircular listacircular;
     ListaDup listadup;
+    Pilha pilha;
     iniciarlista(&lista);
     iniciarlistaCircular(&listacircular);
     iniciarlistadup(&listadup);
-
+    iniciarPilha(&pilha);
+    
     do {
         printf("\nMenu:\n");
         printf("1. Busca, insercao e remocao em lista simplesmente encadeada sem no cabeca ordenada\n");
@@ -518,7 +622,7 @@ int main() {
                 // fila(); // Faltando implementação
                 break;
             case 5:
-                // pilha(); // Faltando implementação
+                pilhamenu(&pilha);
                 break;
             case 0:
                 printf("Saindo\n");
