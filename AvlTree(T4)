@@ -1,0 +1,49 @@
+typedef struct Node{
+    
+    int value;
+    struct Node *left;
+    struct Node *right;
+    int height;
+
+}Node;
+
+Node *CreateNode(int value){
+
+    struct Node *NewNode = (struct Node*)malloc(sizeof(struct Node));
+    NewNode->value = value;
+    NewNode->left = NULL;
+    NewNode->right = NULL;
+    NewNode->height = 1;
+    return NewNode;
+}
+
+int max(L,R){
+    if (L>R){
+        return L;
+    }
+    else{
+        return R;
+    }
+}
+
+Node *Insert(Node *node,int value){
+    if (node == NULL){
+        return (CreateNode(value));
+    }
+    if (value == node->value){
+        return NULL;
+    }
+    if (value > node->value){
+        return Insert(node->right,value);
+    }
+    if (value < node->value){
+        return Insert(node->left,value);
+    }
+    
+
+
+
+}
+
+
+
