@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <stdio.h>   
+   
+   
 typedef struct Node{
     
     int value;
@@ -16,6 +20,18 @@ Node *CreateNode(int value){
     NewNode->height = 1;
     return NewNode;
 }
+
+int Balance(node *B){
+    if (B == NULL){
+        return 0;
+    }
+    return (B->left) - (B->right);
+
+
+
+
+}
+
 
 int max(int L,int R){
     if (L>R){
@@ -40,10 +56,9 @@ Node *Insert(Node *node,int value){
         return Insert(node->left,value);
     }
     
-
+    node->height = 1 + max(height(node->left),height(node->right));
 
 
 }
-
 
 
