@@ -17,7 +17,7 @@ Node *CreateNode(int value){
     return NewNode;
 }
 
-int max(L,R){
+int max(int L,int R){
     if (L>R){
         return L;
     }
