@@ -54,11 +54,45 @@ void insertionsort(int *vector){
 
 
 int main(){
+   File *file = fopen("50.a","r");
+   if (file == NULL ){
+    printf("erro ao abrir o arquivo");
+
+
+   }else{
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   }
+
+
+
+    fclose(file);
 
     return 0;
 }
