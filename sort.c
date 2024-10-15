@@ -53,14 +53,17 @@ void insertionsort(int *vector){
 }
 
 
-int main(){
-   File *file = fopen("50.a","r");
+int main(int argc,char argv[]){
+    char nome_arquivo_entrada = argv[2];
+    char nome_arquivo_saida = argv[3];
+    int aux[];
+   File *file = fopen("nome_arquivo","rb");
    if (file == NULL ){
     printf("erro ao abrir o arquivo");
 
 
    }else{
-
+    
 
 
 
