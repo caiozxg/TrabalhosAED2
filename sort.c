@@ -16,53 +16,54 @@ void bubblesort(int32_t *vector, int32_t tam) {
     }
 }
 
-// void bubblesortmelhorado(int32_t *vector,int tam){
-//     int32_t mudou=1,temp;
-//     // chega se mudou ou nao
-//     while (mudou == 1){
+ void bubblesortmelhorado(int32_t *vector,int tam){
+     int32_t mudou=1,temp;
+      //checa se mudou ou nao
+     while (mudou == 1){
         
-//         mudou = 0;
-//         for (int32_t i = 0;i<tam;i++){
-//             if (vector[i]>vector[i+1]){
-//                 temp = vector[i];
-//                 vector[i]=vector[i+1];
-//                 vector[i+1]=temp;
-//                 mudou = 1;
-//             }
-//         }
+         mudou = 0;
+         for (int32_t i = 0;i<tam;i++){
+             if (vector[i]>vector[i+1]){
+                 temp = vector[i];
+                 vector[i]=vector[i+1];
+                 vector[i+1]=temp;
+                 mudou = 1;
+             }
+         }
 
 
 
-//     }
+     }
 
-// }
-
-
-// void insertionsort(int32_t *vector,int tam){
-//     //percorre aumentando 1 a cada vez
-//     int32_t temp;
-//     for (int32_t i=1;i<tam;i++){
-//         temp = vector[i];
-//         int32_t j = i-1;
-//         //move os numeros maiores que os que estao guardado em temp para direita
-//         while (j>=1 && temp < vector[j]){
-//             vector[j+1] = vector[j];
-//             j--;
+ }
 
 
-//         }       
-//         //adiciona o temp no lugar certo
-//         vector[j+1] = temp;
-//     }
-// }
+ void insertionsort(int32_t *vector,int tam){
+     //percorre aumentando 1 a cada vez
+     int32_t temp;
+     for (int32_t i=1;i<tam;i++){
+         temp = vector[i];
+         int32_t j = i-1;
+         //move os numeros maiores que os que estao guardado em temp para direita
+         while (j>=1 && temp < vector[j]){
+             vector[j+1] = vector[j];
+             j--;
+
+
+         }       
+         //adiciona o temp no lugar certo
+         vector[j+1] = temp;
+     }
+ }
 
 
 int main(int argc, char *argv[]) {
    
     clock_t inicio,fim;
-    char *nome_arquivo_entrada = argv[1];
+    int menu = atoi(argv[1]);
+    char *nome_arquivo_entrada = argv[2];
 
-    char *nome_arquivo_saida = argv[2];
+    char *nome_arquivo_saida = argv[3];
 
     FILE *file = fopen(nome_arquivo_entrada, "rb");
     
@@ -103,7 +104,30 @@ int main(int argc, char *argv[]) {
 
     srand(time(NULL));
     inicio = clock();
-    bubblesort(vector,tamanho_arquivo/sizeof(int32_t));
+    switch(menu){
+
+        case 1:
+            bubblesort(vector,tamanho_arquivo);
+        case 2:
+            bubblesortmelhorado(vector,tamanho_arquivo);
+        case 3:
+            insertionsort(vector,tamanho_arquivo);
+        //  case 4:      
+            
+        //  case 5:      
+        
+        //  case 6:      
+        
+        //  case 7:      
+        
+        //  case 8:      
+
+
+
+    }
+
+
+    bubblesortmelhorado(vector,tamanho_arquivo/sizeof(int32_t));
     fim = clock();
 
 
